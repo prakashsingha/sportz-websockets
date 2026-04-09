@@ -6,17 +6,14 @@ import { getMatchStatus } from "../utils/match-status.js";
 import { desc } from "drizzle-orm";
 export const matchRouter = Router();
 
-const maxLimit = 100;
-
 // Get all matches
 matchRouter.get("/", async (req, res) => {
   const parsedData = listMatchesQuerySchema.safeParse(req.query);
   if(!parsedData.success) {
-    return res.status(400).json({ error: 'Invalid input', details: JSON.stringify(parsedData.error) });
+    return res.status(400).json({ error: 'Invalid input', details: parsedData.error.issues });
   }
 
-  const requestLimit = parseInt(req.query.limit);
-  const limit = Math.min(requestLimit, maxLimit);
+  const limit = parsedData.data.limit || 100;
 
   try {
     const data = await db.select()
@@ -35,7 +32,7 @@ matchRouter.post("/", async (req, res) => {
   const parsedData = createMatchSchema.safeParse(req.body);
 
   if (!parsedData.success) {
-    return res.status(400).json({ error: 'Invalid input', details: JSON.stringify(parsedData.error)});
+    return res.status(400).json({ error: 'Invalid input', details: parsedData.error.issues });
   }
 
   const { startTime, endTime, homeScore, awayScore } = parsedData.data;
