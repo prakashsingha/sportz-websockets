@@ -1,9 +1,13 @@
-import { eq } from 'drizzle-orm';
-// The 'pool' export will only exist for WebSocket and node-postgres drivers
-import { db, pool } from './db/db.js';
+import express from 'express';
+import {matchRouter} from './routes/matches.js';
 
-async function main() {
-}
+const app = express();
+const PORT = process.env.PORT || 8000;
 
-main();
+app.use(express.json());
+app.use('/matches', matchRouter);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+}); 
 
