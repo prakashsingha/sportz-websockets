@@ -5,16 +5,16 @@ import {WebSocket, WebSocketServer} from 'ws';
 // - match_created: broadcast to all connected clients when a new match is created.
 
 function sendJson(socket, data) {
-    if(socket.readyState !== WebSocket.OPEN) return;
-
-    socket.send(JSON.stringify(data));
+    
 }
 
 function broadcastJson(wss, data) {
     if (!wss?.clients?.size) return;
 
     for(const client of wss.clients) {
-        sendJson(client, data);
+        if(client.readyState !== WebSocket.OPEN) continue;
+
+        client.send(JSON.stringify(data));
     }
 }
 
