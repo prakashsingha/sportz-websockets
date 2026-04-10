@@ -47,7 +47,7 @@ matchRouter.post("/", async (req, res) => {
       status: getMatchStatus(startTime, endTime),
     }).returning();
 
-    const broadcastMatchCreated = res.app.locals.broadcastMatchCreated;
+    const broadcastMatchCreated = res.app.locals.wsBroadcaster;
     if (typeof broadcastMatchCreated === 'function') {
       broadcastMatchCreated(event);
     }

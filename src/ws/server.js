@@ -11,6 +11,8 @@ function sendJson(socket, data) {
 }
 
 function broadcastJson(wss, data) {
+    if (!wss?.clients?.size) return;
+
     for(const client of wss.clients) {
         sendJson(client, data);
     }

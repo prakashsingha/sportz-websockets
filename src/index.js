@@ -10,7 +10,7 @@ const HOST = process.env.HOST || '0.0.0.0';
 const app = express();
 const server = http.createServer(app);
 const {broadcastMatchCreated} = attachWebSocketServer(server);
-app.locals.broadcastMatchCreated = broadcastMatchCreated; // Make the broadcast function available in routes
+app.locals.wsBroadcaster = broadcastMatchCreated; // Make the broadcast function available in routes
 
 app.use(express.json());
 app.use('/matches', matchRouter);

@@ -20,3 +20,7 @@ Example event payload:
   }
 }
 ```
+
+## Internal API
+
+The HTTP app stores the WS broadcaster at `app.locals.wsBroadcaster`, so request handlers can publish events without introducing a hard dependency on the WebSocket server internals.
